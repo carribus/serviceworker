@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Service Worker Client</title>
+</head>
+<body>
+
+<script language="JavaScript">
+    console.log("Web Service Worker Client example running");
+
+    if ( Notification !== 'undefined' ) {
+        console.log('Requesting permission for notifications');
+        Notification.requestPermission(function (permission) {
+            if ( permission === "granted" ) {
+                if ( 'serviceWorker' in navigator ) {
+                    console.log('Registering serviceworker');
+                    navigator.serviceWorker.register('/service-worker.js', {scope: '/'})
+                            .then(function(reg) {
+                                console.log('-----------------------')
+                                console.log("Service worker registration: ");
+                                console.log(reg);
+                                console.log('-----------------------')
+                            })
+                            .catch(function(error) {
+                                // registration failed
+                                console.log('Registration failed with ' + error);
+                            });
+                }
+            }
+        });
+    }
+
+</script>
+</body>
+</html>
